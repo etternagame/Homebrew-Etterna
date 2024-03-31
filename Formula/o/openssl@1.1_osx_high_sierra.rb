@@ -16,9 +16,8 @@ class OpensslAT11 < Formula
   license "OpenSSL"
   version_scheme 1
 
-  bottle do
-  # Leave empty intentionally; we want to force this to build from source here.
-  end
+
+  # TODO: Bottle at some point?
 
   keg_only :versioned_formula
 
