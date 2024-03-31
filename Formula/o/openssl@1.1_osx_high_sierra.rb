@@ -11,7 +11,12 @@ class OpensslAT11OsxHighSierra < Formula
   license "OpenSSL"
   version_scheme 1
 
+  bottle do
+    # Leave empty intentionally; we want to force this to build from source here.
+  end
+
   keg_only :versioned_formula
+  
 
   # See: https://www.openssl.org/policies/releasestrat.html
   deprecate! date: "2023-10-24", because: :unsupported
@@ -50,6 +55,12 @@ class OpensslAT11OsxHighSierra < Formula
       no-ssl3-method
       no-zlib
     ]
+    on_macos do
+      # Build a version of OpenSSL that can be statically linked into our binary and work on OSX High Sierra!
+      # Without this, the generated library will be unusable because of the lack of ____chkstk_darwin in High Sierra's libSystem.B.dylib
+      # See: https://github.com/etternagame/etterna/issues/1186
+      args << "-mmacosx-version-min=10.12"
+    end
     on_linux do
       args += (ENV.cflags || "").split
       args += (ENV.cppflags || "").split
