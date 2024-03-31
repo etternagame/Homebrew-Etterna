@@ -16,7 +16,17 @@ class OpensslAT11highsierra < Formula
   license "OpenSSL"
   version_scheme 1
 
-
+  bottle do
+    sha256 arm64_sonoma:   "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    sha256 arm64_ventura:  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    sha256 arm64_monterey: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    sha256 arm64_big_sur:  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    sha256 sonoma:         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    sha256 ventura:        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    sha256 monterey:       "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    sha256 big_sur:        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    sha256 x86_64_linux:   "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  end
   # TODO: Bottle at some point?
 
   keg_only :versioned_formula
@@ -67,12 +77,6 @@ class OpensslAT11highsierra < Formula
       no-ssl3-method
       no-zlib
     ]
-    on_macos do
-      # Build a version of OpenSSL that can be statically linked into our binary and work on OSX High Sierra!
-      # Without this, the generated library will be unusable because of the lack of ____chkstk_darwin in High Sierra's libSystem.B.dylib
-      # See: https://github.com/etternagame/etterna/issues/1186
-      args << "mmacosx-version-min=10.12"
-    end
     on_linux do
       args += (ENV.cflags || "").split
       args += (ENV.cppflags || "").split
@@ -156,8 +160,7 @@ moody.
     (testpath/"testfile.txt").write("This is a test file")
     expected_checksum = 
 "e2d0fe1585a63ec6009c8016ff8dda8b17719a637405a4e23c0ff81339148249"
-    system bin/"openssl", "dgst", "-sha256", "-out", "checksum.txt", 
-"testfile.txt"
+    system bin/"openssl", "dgst", "-sha256", "-out", "checksum.txt", "testfile.txt"
     open("checksum.txt") do |f|
       checksum = f.read(100).split("=").last.strip
       assert_equal checksum, expected_checksum
