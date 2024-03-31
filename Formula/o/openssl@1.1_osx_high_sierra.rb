@@ -1,4 +1,4 @@
-class OpensslAT11OSXHighSierra < Formula
+class OpensslAT11_OSX_High_Sierra < Formula
   desc "Cryptography and SSL/TLS Toolkit"
   homepage "https://openssl.org/"
   url "https://www.openssl.org/source/openssl-1.1.1w.tar.gz"
